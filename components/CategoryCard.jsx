@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import Divider from 'material-ui/Divider';
 import { connect } from 'react-redux';
-import { addCard } from '../redux/actionCreators';
+import { addCard, switchCategories } from '../redux/actionCreators';
 import CategoryItemContainer from './CategoryItemContainer';
 
 declare type CategoryType = {
@@ -84,7 +84,10 @@ class CategoryCard extends Component {
           />
         </AddCardFormWrapper>
         <Divider style={styles.divider} />
-        <CategoryItemContainer category={this.props.category} />
+        <CategoryItemContainer
+          category={this.props.category}
+          switchCategories={this.props.switchCategories}
+        />
       </Paper>
     );
   }
@@ -93,6 +96,9 @@ class CategoryCard extends Component {
 const mapDispatchToProps = dispatch => ({
   addCard(newCard) {
     dispatch(addCard(newCard));
+  },
+  switchCategories(toCategoryID, cardID) {
+    dispatch(switchCategories(toCategoryID, cardID));
   }
 });
 
@@ -104,5 +110,6 @@ CategoryCard.propTypes = {
     id: PropTypes.number,
     projectID: PropTypes.string
   }).isRequired,
-  addCard: PropTypes.func.isRequired
+  addCard: PropTypes.func.isRequired,
+  switchCategories: PropTypes.func.isRequired
 };

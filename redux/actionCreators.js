@@ -5,7 +5,8 @@ import {
   DELETE_PROJECT,
   ADD_CATEGORY,
   ADD_CARD,
-  SORT_CATEGORY_ITEMS
+  SORT_CATEGORY_ITEMS,
+  SWITCH_CATEGORIES
 } from './actions';
 
 declare type CategoryType = {
@@ -46,6 +47,16 @@ export function sortCategoryItems(
       hoverIndex,
       dragIndex,
       categoryID
+    }
+  };
+}
+
+export function switchCategories(toCategoryID: number, cardID: number) {
+  return {
+    type: SWITCH_CATEGORIES,
+    payload: {
+      toCategoryID,
+      cardID
     }
   };
 }

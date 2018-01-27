@@ -9,11 +9,14 @@ import CategoryItem from './CategoryItem';
 import Types from './ItemTypes';
 
 const categoryItemTarget = {
-  // drop(props, monitor) {
-  //   const dragItem = monitor.getItem();
-  //   console.log(dragItem);
-  //   props.onDrop(monitor.getItem());
-  // }
+  drop(props, monitor) {
+    const dragItem = monitor.getItem();
+    console.log(props);
+    if (props.category.id === dragItem.categoryID) {
+      return;
+    }
+    props.switchCategories(props.category.id, dragItem.id);
+  }
 };
 
 function dropCollect(dndConnect, monitor) {

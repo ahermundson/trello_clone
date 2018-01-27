@@ -6,7 +6,8 @@ import {
   DELETE_PROJECT,
   ADD_CATEGORY,
   ADD_CARD,
-  SORT_CATEGORY_ITEMS
+  SORT_CATEGORY_ITEMS,
+  SWITCH_CATEGORIES
 } from './actions';
 
 let projectCounter = 0;
@@ -72,6 +73,14 @@ const cards = (state = [], action) => {
         }),
         ...otherCategories
       ];
+    }
+    case SWITCH_CATEGORIES: {
+      const cardToChange = state.splice(
+        state.findIndex(card => card.id === action.payload.cardID),
+        1
+      );
+      cardToChange[0].categoryID = action.payload.toCategoryID;
+      return [...state, ...cardToChange];
     }
     default:
       return state;
