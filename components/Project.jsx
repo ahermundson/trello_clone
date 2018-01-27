@@ -12,6 +12,7 @@ import CategoryCard from './CategoryCard';
 const CategoryCardContainer = styled.div`
   display: flex;
   margin-top: 10px;
+  align-items: flex-start;
 `;
 
 const ProjectHeader = styled.h3`

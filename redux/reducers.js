@@ -6,7 +6,8 @@ import {
   DELETE_PROJECT,
   ADD_CATEGORY,
   ADD_CARD,
-  SORT_CATEGORY_ITEMS
+  SORT_CATEGORY_ITEMS,
+  SWITCH_CATEGORIES
 } from './actions';
 
 let projectCounter = 0;
@@ -56,13 +57,30 @@ const cards = (state = [], action) => {
         ...state
       ];
     case SORT_CATEGORY_ITEMS: {
-      const dragCard = state[action.payload.dragIndex];
-      return update(state, {
-        $splice: [
-          [action.payload.dragIndex, 1],
-          [action.payload.hoverIndex, 0, dragCard]
-        ]
-      });
+      const categoryToSort = state.filter(
+        card => card.categoryID === action.payload.categoryID
+      );
+      const otherCategories = state.filter(
+        card => card.categoryID !== action.payload.categoryID
+      );
+      const dragCard = categoryToSort[action.payload.dragIndex];
+      return [
+        ...update(categoryToSort, {
+          $splice: [
+            [action.payload.dragIndex, 1],
+            [action.payload.hoverIndex, 0, dragCard]
+          ]
+        }),
+        ...otherCategories
+      ];
+    }
+    case SWITCH_CATEGORIES: {
+      const cardToChange = state.splice(
+        state.findIndex(card => card.id === action.payload.cardID),
+        1
+      );
+      cardToChange[0].categoryID = action.payload.toCategoryID;
+      return [...state, ...cardToChange];
     }
     default:
       return state;

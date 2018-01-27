@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import { DragSource, DropTarget } from 'react-dnd';
 import flow from 'lodash/flow';
-
 import Types from './ItemTypes';
 
 const cardSource = {
@@ -11,14 +10,19 @@ const cardSource = {
     // RETURNS TO TARGET
     return {
       id: props.id,
-      index: props.index
+      index: props.index,
+      categoryID: props.categoryID
     };
   }
 };
 
 const cardTarget = {
   hover(props, monitor, component) {
-    const dragIndex = monitor.getItem().index;
+    const dragItem = monitor.getItem();
+    if (dragItem.categoryID !== props.categoryID) {
+      return;
+    }
+    const dragIndex = dragItem.index;
     const hoverIndex = props.index;
 
     if (dragIndex === hoverIndex) {
@@ -54,7 +58,7 @@ const cardTarget = {
       return;
     }
     // Time to actually perform the action
-    props.sort(dragIndex, hoverIndex);
+    props.sort(dragIndex, hoverIndex, dragItem.categoryID);
 
     // Note: we're mutating the monitor item here!
     // Generally it's better to avoid mutations,
