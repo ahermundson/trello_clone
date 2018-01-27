@@ -56,13 +56,22 @@ const cards = (state = [], action) => {
         ...state
       ];
     case SORT_CATEGORY_ITEMS: {
-      const dragCard = state[action.payload.dragIndex];
-      return update(state, {
-        $splice: [
-          [action.payload.dragIndex, 1],
-          [action.payload.hoverIndex, 0, dragCard]
-        ]
-      });
+      const categoryToSort = state.filter(
+        card => card.categoryID === action.payload.categoryID
+      );
+      const otherCategories = state.filter(
+        card => card.categoryID !== action.payload.categoryID
+      );
+      const dragCard = categoryToSort[action.payload.dragIndex];
+      return [
+        ...update(categoryToSort, {
+          $splice: [
+            [action.payload.dragIndex, 1],
+            [action.payload.hoverIndex, 0, dragCard]
+          ]
+        }),
+        ...otherCategories
+      ];
     }
     default:
       return state;

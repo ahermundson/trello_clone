@@ -35,12 +35,17 @@ export function addCard(newCard: CardType) {
   return { type: ADD_CARD, payload: newCard };
 }
 
-export function sortCategoryItems(hoverIndex: number, dragIndex: number) {
+export function sortCategoryItems(
+  hoverIndex: number,
+  dragIndex: number,
+  categoryID: number
+) {
   return {
     type: SORT_CATEGORY_ITEMS,
     payload: {
       hoverIndex,
-      dragIndex
+      dragIndex,
+      categoryID
     }
   };
 }
