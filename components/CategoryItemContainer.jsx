@@ -11,7 +11,6 @@ import Types from './ItemTypes';
 const categoryItemTarget = {
   drop(props, monitor) {
     const dragItem = monitor.getItem();
-    console.log(props);
     if (props.category.id === dragItem.categoryID) {
       return;
     }
